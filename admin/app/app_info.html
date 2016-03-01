@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="../../static/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/app.css">
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../static/flat-ui/css/flat-ui.css">
+    <link rel="stylesheet" href="../../static/jquery/css/jquery-ui-1.10.2.custom.css" >
+    <title>应用审核</title>
+</head>
+<body>
+    <div class="nav-base">
+        <div class="nav-base-title">
+            后台管理系统
+        </div>
+        <div class="nav-base-action">
+            <label>1916508685@qq.com</label>
+            <a href="../../index.html">注销</a>
+        </div>
+    </div>
+
+    <div class="container main" id="wrap_container">
+        <div class="div-border">
+            <div class="div-float div-li">
+                <div class="div-border-base li-he">
+                    <a class="active" id="app-verify" href="../app/app_verify.html">
+                        应用审核
+                        <span id="app-verify-warn"></span>
+                    </a>
+                </div>
+                <div class="div-border-base li-he"><a class="no-active" id="app-auth" href="app_auth.html">授权应用</a></div>
+                <div class="div-border-base li-he"><a class="no-active" id="app-no-auth" href="app_no_auth.html">未授权应用</a></div>
+                <div class="div-border-base li-he"><a class="no-active" id="app-user" href="../user/user_list.html">开发者</a></div>
+                <div class="div-border-base li-he"><a class="no-active" id="app-msg" href="../msg/msg_list.html">消息推送</a></div>
+            </div>
+
+            <div class="div-float div-content">
+                <div class="app-info-main">
+                    <div class="app-verify-return"><a href="app_verify.html">返回</a></div>
+                    <input type="hidden" id="" value="">
+                    <div class="base-info">
+                        <div class="app-base-info">
+                            <div class="app-logo-image">
+                                <img src="../../static/images/app/yowo.png" height="100" width="100">
+                            </div>
+                            <div>
+                                尤物
+                            </div>
+                            <div>
+                                拍出具有艺术气息的照片
+                            </div>
+                            <div>
+                                http://www.yowo.com
+                            </div>
+                        </div>
+                        <div class="editor-base-info">
+                            <div>
+                                开发者：1916508685@qq.com
+                            </div>
+                            <div>
+                                姓名：andrew
+                            </div>
+                            <div>
+                                电话：01234567891
+                            </div>
+                             <div>
+                                提交时间：2015-12-31
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="app-key-info">
+                        <div>AppID: 12345678</div>
+                        <div>AppKey: 87654321</div>
+                        <div>关联的AR内容创建帐号: 123456789@qq.com</div>
+                    </div>
+
+                    <div class="plat-info-div">
+                        <div class="font-black">平台信息</div>
+                        <div class="ios-plat">
+                            <div class="font-black">IOS</div>
+                            <div>Apple Id:12345678</div>
+                            <div>Bundle Id:12345678</div>
+                            <div>ios下载地址:http://www.yowo.com/ios/download</div>
+                        </div>
+                        <div class="android-plat">
+                            <div class="font-black">Android</div>
+                            <div>android 包名:qqq@qqqq.com</div>
+                            <div>android 签名:12345678</div>
+                            <div>android 下载地址:http://www.yowo.com/android/download</div>
+                        </div>
+                    </div>
+                    <div class="verify-set-info-info">
+                        <!--<div>-->
+                            <!--拒绝原因-->
+                        <!--</div>-->
+                        <!--<div style="color: orange">-->
+                            <!--应用不合格-->
+                        <!--</div>-->
+                    </div>
+
+                    <div class="verify-set-div">
+                        <div class="pre-sdk-app cursor-pointer">
+                            <a href="#">上一条</a>
+                        </div>
+                        <!--<div class="verify-set-div-cancel cursor-pointer">撤回授权</div>-->
+                        <div class="verify-set-div-refuse cursor-pointer">拒绝</div>
+                        <div class="verify-set-div-agree cursor-pointer">同意授权</div>
+                        <div class="next-sdk-app cursor-pointer">
+                            <a href="#">下一条</a>
+                        </div>
+                    </div>
+
+
+                    <div class="modal fade app-verify-modal" id="agreeModal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content text-center">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <div class="modal-title text-center">信息确认</div>
+                                </div>
+                                <div class="modal-body">
+                                    请确认信息正确无误后同意授权ARSDK
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="text-center">
+                                        <button class="btn verify-cancel-btn">取消</button>
+                                        <button class="btn-primary " id="verify-agree-submit">确定</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade app-verify-modal" id="refuseModal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content text-center">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <div class="modal-title text-center">
+                                        请输入回复拒绝原因
+                                    </div>
+                                </div>
+                                <div class="modal-body">
+                                    <div>
+                                        <input style="width: 90%;height: 100px;" type="text" id="verify-reason" placeholder="输入拒绝原因,或者选择列表">
+                                    </div>
+                                    <div>
+                                        <select class="app-reason-list" style="width: 90%; margin-top: 20px;">
+                                            <option value="0">手动输入</option>
+                                            <option value="应用无效">应用无效</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <div id="error-msg"></div>
+                                    <div class="text-center">
+                                        <button class="btn verify-cancel-btn">取消</button>
+                                        <button class="btn-primary " id="verify-refuse-submit">确定</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade app-verify-modal" id="cancelModal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content text-center">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <div class="modal-title text-center">
+                                        请输入撤销原因
+                                    </div>
+                                </div>
+                                <div class="modal-body">
+                                    <div>
+                                        <input style="width: 90%;height: 100px;" type="text" id="verify-cancel-reason" placeholder="输入撤销原因,或者选择列表">
+                                    </div>
+                                    <div>
+                                        <select class="app-reason-list-c" style="width: 90%; margin-top: 20px;">
+                                            <option value="0">手动输入</option>
+                                            <option value="应用无效">应用无效</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <div id="error-msg-cancel"></div>
+                                    <div class="text-center">
+                                        <button class="btn verify-cancel-btn">取消</button>
+                                        <button class="btn-primary " id="verify-cancel-submit">确定</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- /container -->
+
+   <!--<footer class="footer">-->
+        <!--<p class="footer_company">&copy; andrew 2015-2016</p>-->
+    <!--</footer>-->
+
+    <script src="../../static/jquery/js/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="../../static/jquery/js/jquery.i18n.properties.js" type="text/javascript"></script>
+    <script src="../../static/jquery/js/jquery.form.js" type="text/javascript"></script>
+    <script src="../../static/jquery/js/jquery.json.min.js" type="text/javascript"></script>
+    <script src="../../static/jquery/js/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="../../static/jquery/js/jquery.cookie.min.js" type="text/javascript"></script>
+    <script src="../../static/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="../../static/bootstrap/js/bootstrap-switch.js" type="text/javascript"></script>
+    <script src="../../static/jquery/js/jquery-ui-1.10.3.js" type="text/javascript"></script>
+    <script src="../../static/admin/js/app.js" type="text/javascript"></script>
+
+</body>
+</html>

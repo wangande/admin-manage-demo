@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="../../static/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/msg.css">
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../static/flat-ui/css/flat-ui.css">
+    <link rel="stylesheet" href="../../static/jquery/css/jquery-ui-1.10.2.custom.css" >
+    <title>消息推送</title>
+</head>
+<body>
+    <div class="nav-base">
+        <div class="nav-base-title">
+            后台管理系统
+        </div>
+        <div class="nav-base-action">
+            <label>1916508685@qq.com</label>
+            <a href="../../index.html">注销</a>
+        </div>
+    </div>
+
+    <div class="container main" id="wrap_container">
+        <div class="div-border">
+            <div class="div-float div-li">
+                <div class="div-border-base li-he">
+                    <a class="no-active" id="app-verify" href="../app/app_verify.html">
+                        应用审核
+                        <span id="app-verify-warn"></span>
+                    </a>
+                </div>
+                <div class="div-border-base li-he"><a class="no-active" id="app-auth" href="../app/app_auth.html">授权应用</a></div>
+                <div class="div-border-base li-he"><a class="no-active" id="app-no-auth" href="../app/app_no_auth.html">未授权应用</a></div>
+                <div class="div-border-base li-he"><a class="no-active" id="app-user" href="../user/user_list.html">开发者</a></div>
+                <div class="div-border-base li-he"><a class="active" id="app-msg" href="#">消息推送</a></div>
+            </div>
+
+            <div class="div-float div-content">
+                <div class="admin-nav-head">
+                    <div class="admin-nav-head-info">
+                        <div class="btn-primary new-sdk-msg">新建消息</div>
+                    </div>
+                    <div class="admin-nav-head-search">
+                        <input class="select-key" value="" data-page="" type="text" placeholder="搜索">
+                    </div>
+                    <div class="admin-nav-head-btn">
+                        搜索
+                    </div>
+                </div>
+
+                <div class="admin-nav-body">
+                    <table class="table table-hover float-left">
+                        <thead>
+                            <tr class="admin-background">
+                                <th>推送日期</th>
+                                <th>已读</th>
+                                <th>消息内容</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    2015-12-31
+                                </td>
+                                <td>
+                                    10
+                                </td>
+                                <td>
+                                    发布上线了！
+                                </td>
+                                <td><a href="msg_info.html">详情</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pages">
+                    <ul>
+                        <li class="page-action" id="home-page">首页</li>
+                        <li class="page-action" id="pre-page">上一页</li>
+                        <li class="page">
+                            <div class="page-action">1</div>
+                            <div class="page-action">2</div>
+                            <div class="page-action">3</div>
+                        </li>
+                        <li class="page-action" id="next-page">下一页</li>
+                        <li class="page-action" id="last-page">末页</li>
+                    </ul>
+                </div>
+
+                <div class="modal fade" id="msgModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <div class="modal-title text-center">新建推送消息</div>
+                            </div>
+                            <div class="modal-body">
+                                <div>
+                                    <textarea class="msg-modal-content" id="content" placeholder="消息内容">
+
+                                    </textarea>
+                                </div>
+                                <div>
+                                    <input id="is_skip" type="checkbox">
+                                    <label>跳转地址</label>
+                                    <input type="text"  id="src_url" placeholder="输入点击消息要跳转链接地址">
+                                </div>
+                                <div class="font-orange text-center">消息将发送给所有开发者</div>
+                            </div>
+                            <div class="modal-footer">
+                                <div id="error-msg"></div>
+                                <div>
+                                    <div class="new-msg-cancel text-center cursor-pointer" data-dismiss="modal">取消</div>
+                                    <div class="new-msg-submit text-center cursor-pointer" id="msg-submit-btn">发送</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="msgSendModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <div class="modal-title text-center">确认要发送以下消息</div>
+                            </div>
+                            <div class="modal-body">
+                                <div id="msg-send-content">
+                                </div>
+                                <div class="msg-warning font-orange text-center">消息发送后不能撤回，请谨慎操作</div>
+                            </div>
+                            <div class="modal-footer">
+                                <div id="error-msg-send"></div>
+                                <div>
+                                    <div class="new-msg-cancel text-center cursor-pointer" data-dismiss="modal">取消</div>
+                                    <div class="new-msg-submit text-center cursor-pointer" id="msg-send-submit-btn">确认发送</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- /container -->
+
+   <!--<footer class="footer">-->
+        <!--<p class="footer_company">&copy; andrew 2015-2016</p>-->
+    <!--</footer>-->
+
+    <script src="../../static/jquery/js/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="../../static/jquery/js/jquery.i18n.properties.js" type="text/javascript"></script>
+    <script src="../../static/jquery/js/jquery.form.js" type="text/javascript"></script>
+    <script src="../../static/jquery/js/jquery.json.min.js" type="text/javascript"></script>
+    <script src="../../static/jquery/js/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="../../static/jquery/js/jquery.cookie.min.js" type="text/javascript"></script>
+    <script src="../../static/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="../../static/bootstrap/js/bootstrap-switch.js" type="text/javascript"></script>
+    <script src="../../static/jquery/js/jquery-ui-1.10.3.js" type="text/javascript"></script>
+    <script src="../../static/admin/js/msg.js" type="text/javascript"></script>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+.nav-base{
+    width: 100%;
+    height: 60px;
+    background-color: #dddddd;
+    line-height: 60px;
+    text-align: center;
+}
+.admin-login{
+    margin-top: 50px;
+    width: 50%;
+    text-align: center;
+    margin-left: 25%;
+    border: 1px solid #dddddd;
+}
+.admin-login-head{
+    border: 1px solid #dddddd;
+    color: #00A8FF;
+    height: 40px;
+    line-height: 40px;
+}
+.admin-login-body{
+    height: 300px;
+}
+.admin-login-body input {
+    margin-top: 20px;
+    width: 80%;
+    height: 40px;
+}
+.user-login-submit{
+    border-radius: 2%;
+    margin-top: 30px;
+    margin-left: 10%;
+    width: 80%;
+    height: 40px;
+    line-height: 40px;
+}
+.admin-login-error-msg{
+    display: none;
+    margin-top: 20px;
+    color: red;
+}

@@ -1,0 +1,41 @@
+.nav-base{
+    width: 100%;
+    height: 60px;
+    background-color: #dddddd;
+    line-height: 60px;
+    text-align: center;
+}
+.admin-register{
+    margin-top: 50px;
+    width: 50%;
+    text-align: center;
+    margin-left: 25%;
+    border: 1px solid #dddddd;
+}
+.admin-register-head{
+    border: 1px solid #dddddd;
+    color: #00A8FF;
+    height: 40px;
+    line-height: 40px;
+}
+.admin-register-body{
+    height: 300px;
+}
+.admin-register-body input {
+    margin-top: 20px;
+    width: 80%;
+    height: 40px;
+}
+.user-register-submit{
+    border-radius: 2%;
+    margin-top: 30px;
+    margin-left: 10%;
+    width: 80%;
+    height: 40px;
+    line-height: 40px;
+}
+.admin-register-error-msg{
+    display: none;
+    margin-top: 20px;
+    color: red;
+}

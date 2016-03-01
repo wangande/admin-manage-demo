@@ -1,0 +1,123 @@
+.base-info{
+    height: 250px;
+    margin-top: 10px;
+}
+.app-base-info{
+    border-right: 2px solid #dddddd;
+    float: left;
+    width: 60%;
+    margin-top: 10px;
+    padding: 0 15%;
+}
+.editor-base-info{
+    margin-top: 90px;
+    padding: 0 5%;
+    width: 40%;
+    float: left;
+}
+
+.app-key-info{
+    margin-top: 10px;
+    padding: 0 15%;
+}
+
+.plat-info-div{
+    padding: 0 15%;
+    margin-top: 10px;
+    height: 170px;
+}
+.app-logo-div a{
+    line-height: 150px;
+    color: #dddddd;
+}
+.android-ios-input input{
+    margin-top: 10px;
+    width: 500px;
+    height: 40px;
+
+}
+.name-url-addr input{
+    margin-top: 10px;
+    width: 500px;
+    height: 40px;
+}
+.app-verify-return{
+    text-align: center;
+    margin-top: 10px;
+    margin-left: 40px;
+    width: 100px;
+    border: 1px solid #dddddd;
+}
+.ios-plat{
+    float: left;
+    width: 50%;
+}
+.android-plat{
+    float: left;
+    width: 50%;
+}
+
+.verify-set-info-info{
+    border-bottom: 2px solid #dddddd;
+    height: 80px;
+    padding: 0 15%;
+}
+.verify-set-div{
+}
+.verify-set-div-agree{
+    margin-top: 40px;
+    margin-left: 150px;
+    float: left;
+    text-align: center;
+    width: 100px;
+    border: 1px solid #dddddd;
+    border-radius: 10%;
+
+}
+.verify-set-div-refuse{
+    margin-top: 40px;
+    margin-left: 150px;
+    float: left;
+    text-align: center;
+    width: 100px;
+    border: 1px solid #dddddd;
+    border-radius: 10%;
+}
+
+.verify-set-div-cancel{
+    margin-top: 40px;
+    margin-left: 250px;
+    float: left;
+    text-align: center;
+    width: 100px;
+    border: 1px solid #dddddd;
+    border-radius: 10%;
+}
+
+.pre-sdk-app{
+    margin-top: 15px;
+    margin-left: 100px;
+    float: left;
+    line-height: 80px;
+    text-align: center;
+    width: 80px;
+    height: 80px;
+    border: 1px solid;
+    border-radius: 50%;
+}
+.next-sdk-app{
+    margin-right: 100px;
+    margin-top: 15px;
+    line-height: 80px;
+    text-align: center;
+    width: 80px;
+    height: 80px;
+    border: 1px solid;
+    border-radius: 50%;
+    float: right;
+}
+
+.app-logo-image{
+    border: 1px solid #dddddd;
+    width: 100px;
+}

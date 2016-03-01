@@ -1,0 +1,57 @@
+.new-sdk-msg{
+    cursor: pointer;
+    text-align: center;
+    width: 100px;
+    margin-bottom: 15px;
+}
+
+.msg-modal-content{
+    width: 100%;
+    height: 100px;
+}
+
+#src_url{
+    display: none;
+    width: 82%;
+}
+
+.sdk-msg-info-return{
+    text-align: center;
+    margin-top: 10px;
+    margin-left: 40px;
+    width: 100px;
+    border: 1px solid #dddddd;
+}
+
+.sdk-msg-info-content{
+    margin-top: 50px;
+    padding: 0 15%;
+}
+
+.sdk-msg-info-content div{
+     margin-top: 30px;
+    padding: 0 5%;
+}
+
+.sdk-msg-set{
+    margin-top: 150px;
+    border-top: 1px solid #dddddd;
+}
+
+.new-msg-cancel{
+    margin-left: 100px;
+    float: left;
+    width: 150px;
+    background-color: #dddddd;
+}
+
+.new-msg-submit{
+    margin-left: 50px;
+    float: left;
+    width: 150px;
+    background-color: #23A0FF;
+}
+
+.msg-warning{
+    margin-top: 50px;
+}
