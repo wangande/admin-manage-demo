@@ -2,337 +2,331 @@
  * Created by wangande on 16-1-13.
  */
 
-function getAppList(page_num)
-{
-	if (parseInt(page_num)) {
-		var select_key = $(".select-key").val();
-        var app_status = $(".select-key").attr("data-status");
-    	var href_url = '/admin/sdk/app/verify?page=' + page_num;
-    	if (select_key)
-        	href_url = href_url + "&select_key=" + select_key;
-        href_url = href_url + "&app_status=" + app_status;
-    	location.href = href_url;
-	}
 
-}
+~function (w, $) {
+    var app = {
+        logUpload: function () {
+            if (!$("#logo").val())
+                return;
 
-function appParsePages(now_page, total_page) {
-    if (total_page == 0) {
-        $(".pages").hide();
-        return;
-    }
-    $(".pages").show();
+            var formdata = new FormData();
+            var fileObj = document.getElementById("logo").files;
+            formdata.append("file", fileObj[0]);
+            formdata.append("not_need_narrow", 1);
 
-    var pageHtml = '<div class="page-action {{active}}"' +
-                   'page_num="{{page_num_id}}">'+
-                   '{{page_num}}</div>';
+            $.ajax({
+                url: "/sdk/com/upload",
+                contentType: false,
+                processData: false,
+                data: formdata,
+                type: "POST",
+                dataType: "json",
+                success: function (data) {
+                    //console.log(data);
+                    if (data.status == "success") {
+                        console.log(data);
+                        $("#view-logo").attr("src", data.image_src);
+                        $("#view-logo").show();
+                        $("#logo-md5").val(data.md5);
+                    } else {
+                        var msg = "图片上传错误";
+                        if (data.msg == "File type is error")
+                            msg = "文件类型错误";
+                        else if (data.msg == "Can upload image smaller than 480*480")
+                            msg = "不能小于最小尺寸480*480";
 
-    var pre_page_num = now_page - 1;
+                        $("#logo-upload-error").show();
+                        $("#logo-upload-error").text(msg);
+                    }
+                },
+                error: function (data) {
+                    $("#logo-upload-error").show();
+                    $("#logo-upload-error").text("图片上传错误");
+                },
+            });
+        },
+        appParsePages: function (nowPage, totalPage) {
+            if (totalPage == 0) {
+                $(".pages").hide();
+                return;
+            }
+            $(".pages").show();
 
-    var next_page_num = now_page + 1;
+            var pageHtml = '<div class="page-action {{active}}"' +
+                           'pageNum="{{page_num_id}}">'+
+                           '{{pageNum}}</div>';
 
-    if (next_page_num > total_page)
-        next_page_num = 0;
+            var prePageNum = nowPage - 1;
 
-    var start_page_num = 1;
-    var end_page_num = 5;
+            var nextPageNum = nowPage + 1;
 
-    if (now_page > 3) {
-        start_page_num = now_page -2;
-        end_page_num = now_page + 2;
-    }
+            if (nextPageNum > totalPage)
+                nextPageNum = 0;
 
-    if (end_page_num > total_page)
-        end_page_num = total_page;
+            var startPageNum = 1;
+            var endPageNum = 5;
 
-    var $div = $(".page").html("");
+            if (nowPage > 3) {
+                startPageNum = nowPage -2;
+                endPageNum = nowPage + 2;
+            }
 
-    for (var i=start_page_num; i <= end_page_num; i++) {
-        var active = "";
-        if (i==now_page)
-            active = 'page-active';
-        var tmp_html = pageHtml.replace(/\{\{active\}\}/gm, active)
-                                  .replace(/\{\{page_num_id\}\}/gm, i)
-                                  .replace(/\{\{page_num\}\}/gm, i);
+            if (endPageNum > totalPage)
+                endPageNum = totalPage;
 
-        var $tmpl = $(tmp_html).appendTo($div);
+            var $div = $(".page").html("");
 
-        $tmpl.click(function(){
-            var page_num = $(this).attr('page_num');
-            getAppList(page_num);
-        })
-    }
+            for (var i=startPageNum; i <= endPageNum; i++) {
+                var active = "";
+                if (i==nowPage)
+                    active = 'page-active';
+                var tmpHtml = pageHtml.replace(/\{\{active\}\}/gm, active)
+                                          .replace(/\{\{page_num_id\}\}/gm, i)
+                                          .replace(/\{\{page_num\}\}/gm, i);
 
-    $("#home-page").attr('page_num', 1);
-    $("#pre-page").attr('page_num', pre_page_num);
-    $("#next-page").attr('page_num', next_page_num);
-    $("#last-page").attr('page_num', total_page);
-}
+                var $tmpl = $(tmpHtml).appendTo($div);
 
-$(".page-action").on("click", function(){
-	var page_num = $(this).attr("page_num");
-	getAppList(page_num);
-})
+                $tmpl.click(function(){
+                    var pageNum = $(this).attr('page_num');
+                    app.getAppList(pageNum);
+                })
+            }
 
-$(".admin-nav-head-btn").on("click", function(){
-	var page = $(".select-key").attr("data-page");
-    getAppList(page);
-})
-
-$(".editor-sdk-btn").on("click", function(){
-    $(".display-info").hide();
-    $(".editor-info").show();
-})
-
-$(".editor-sdk-cancel").on("click", function(){
-    $(".display-info").show();
-    $(".editor-info").hide();
-})
-
-$('#logo').change(function() {
-    if (!$("#logo").val())
-        return;
-
-    var formdata = new FormData();
-    var fileObj = document.getElementById("logo").files;
-    formdata.append("file", fileObj[0]);
-    formdata.append("not_need_narrow", 1);
-
-    $.ajax({
-        url: "/sdk/com/upload",
-        contentType: false,
-        processData: false,
-        data: formdata,
-        type: "POST",
-        dataType: "json",
-        success: function (data) {
-            //console.log(data);
-            if (data.status == "success") {
-                console.log(data);
-                $("#view-logo").attr("src", data.image_src);
-                $("#view-logo").show();
-                $("#logo-md5").val(data.md5);
-            } else {
-                var msg = "图片上传错误";
-                if (data.msg == "File type is error")
-                    msg = "文件类型错误";
-                else if (data.msg == "Can upload image smaller than 480*480")
-                    msg = "不能小于最小尺寸480*480";
-
-                $("#logo-upload-error").show();
-                $("#logo-upload-error").text(msg);
+            $("#home-page").attr('page_num', 1);
+            $("#pre-page").attr('page_num', prePageNum);
+            $("#next-page").attr('page_num', nextPageNum);
+            $("#last-page").attr('page_num', totalPage);
+        },
+        getAppList: function (pageNum) {
+            if (parseInt(pageNum)) {
+                var selectKey = $(".select-key").val();
+                var appStatus = $(".select-key").attr("data-status");
+                var hrefUrl = '/admin/sdk/app/verify?page=' + pageNum;
+                if (selectKey)
+                    hrefUrl = hrefUrl + "&select_key=" + selectKey;
+                hrefUrl = hrefUrl + "&app_status=" + appStatus;
+                location.href = hrefUrl;
             }
         },
-        error: function (data) {
-            $("#logo-upload-error").show();
-            $("#logo-upload-error").text("图片上传错误");
+        pageAction: function () {
+            var pageNum = $(this).attr("page_num");
+	        app.getAppList(pageNum);
         },
-    });
-});
+        headReturn: function () {
+            var pageNUm = $(".select-key").attr("data-page");
+            app.getAppList(pageNUm);
+        },
+        editorSdkBtn: function () {
+            $(".display-info").hide();
+            $(".editor-info").show();
+        },
+        editorSdkCancle: function () {
+            $(".display-info").show();
+            $(".editor-info").hide();
+        },
+        editorSdkSubmit: function () {
+            var data = {};
+            var sdkAppId = $("#sdk_app_id").val();
+            data["sdk_app_id"] = $("#sdk_app_id").val();
+            data["app_logo"] = $("#logo-md5").val();
+            data["app_name"] = $("#app_name").val();
+            data["app_url"] = $("#app_url").val();
+            data["app_summary"] = $("#app_summary").val();
 
-$(".editor-sdk-submit").on("click", function(){
+            var platIos = $("#plat-ios")[0].checked;
+            var platAndroid = $("#plat-android")[0].checked;
 
-    var data = {};
-    var sdk_app_id = $("#sdk_app_id").val();
-    data["sdk_app_id"] = $("#sdk_app_id").val();
-    data["app_logo"] = $("#logo-md5").val();
-    data["app_name"] = $("#app_name").val();
-    data["app_url"] = $("#app_url").val();
-    data["app_summary"] = $("#app_summary").val();
-
-    var plat_ios = $("#plat-ios")[0].checked;
-    var plat_android = $("#plat-android")[0].checked;
-
-    if (!plat_android || !plat_ios){
-        alert("必须选一个");
-        return;
-    }
-
-    var platform = {}
-    if (plat_ios) {
-        platform['ios'] = {
-            "apple_id": $("#apple_id").val(),
-            "bundle_id": $("#bundle_id").val(),
-            "app_down": $("#ios_down").val()
-        }
-    }
-    if (plat_android)
-    {
-        platform['android'] = {
-            "pack_name": $("#pack_name").val(),
-            "key_store": $("#key_store").val(),
-            "app_down": $("#android_down").val()
-        }
-    }
-
-    data['platform'] = JSON.stringify(platform);
-    console.log(data);
-    //return;
-    $.ajax({
-        url : "/sdk/app/info",
-        traditional : true,
-        data : data,
-        type : "POST",
-        dataType : "json",
-        success : function (response) {
-            if (response.status == "success") {
-                var url = '/sdk/app/info?sdk_app_id=' + sdk_app_id;
-                location.href = url;
-            } else {
-               console.log(response.msg);
+            if (!platAndroid || !platIos){
+                alert("必须选一个");
+                return;
             }
-        },
-        error : function() {
-            alert("服务器错误，请稍后重试");
-        }
-    });
-});
 
-
-$("button.verify-cancel-btn").on('click',function () {
-     var modal = $('div.app-verify-modal');
-     modal.modal('hide');
- })
-
-
-function appVerify(data, redirect_url){
-
-    $.ajax({
-        url : '/admin/sdk/app/info',
-        data : data,
-        type : "POST",
-        dataType : "json",
-        success : function (response) {
-            if (response.status == "success") {
-               location.href = redirect_url;
-            }else {
-                alert(response.msg);
-                $(".app-verify-modal").hide();
-            }
-        },
-        error: function(){
-            alert('服务器错误，请稍后重试');
-        }
-    });
-}
-
-$(".verify-set-div-agree").on("click", function(){
-    var modal = $('div#agreeModal');
-
-    modal.find("button#verify-agree-submit").unbind('click').click(function () {
-        var data = {};
-        data["sdk_app_id"] = $("#sdk_app_id").val();
-        data['app_status'] = 1;
-        var redirect_url = "/admin/sdk/app/verify?app_status=1"
-        appVerify(data, redirect_url);
-    });
-    modal.modal('show');
-});
-
-
-$(".verify-set-div-refuse").on("click", function(){
-    var modal = $('div#refuseModal');
-
-    modal.find("button#verify-refuse-submit").unbind('click').click(function () {
-        var data = {};
-        data["sdk_app_id"] = $("#sdk_app_id").val();
-        data['app_status'] = 3;
-
-        var reason_op = $(".app-reason-list").val();
-
-        var verify_reason = "";
-        if (reason_op == "0")
-            verify_reason = $("#verify-reason").val().trim();
-        else
-            verify_reason = reason_op;
-
-        if (!verify_reason) {
-            alert("原因不能为空");
-            return;
-        }
-        data['verify_reason'] = verify_reason;
-
-        var redirect_url = "/admin/sdk/app/verify?app_status=3";
-        appVerify(data, redirect_url);
-    });
-    modal.modal('show');
-});
-
-$(".verify-set-div-cancel").on("click", function(){
-    var modal = $('div#cancelModal');
-
-    modal.find("button#verify-cancel-submit").unbind('click').click(function () {
-        var data = {};
-        data["sdk_app_id"] = $("#sdk_app_id").val();
-        data['app_status'] = 4;
-
-
-        var reason_op = $(".app-reason-list-c").val();
-
-        var verify_reason = "";
-        if (reason_op == "0")
-            verify_reason = $("#verify-cancel-reason").val().trim();
-        else
-            verify_reason = reason_op;
-
-        if (!verify_reason) {
-            alert("原因不能为空");
-            return;
-        }
-        data['verify_reason'] = verify_reason;
-
-        var redirect_url = "/admin/sdk/app/verify?app_status=3";
-        appVerify(data, redirect_url);
-    });
-    modal.modal('show');
-});
-
-
-$(".connect-ar-mod").on("click", function(){
-    var modal = $('div#arModal');
-
-    modal.find("button#ar-submit-btn").unbind('click').click(function () {
-        var data = {};
-        var sdk_app_id = $("#sdk_app_id").val();
-        data["sdk_app_id"] = sdk_app_id;
-        var connect_ar_mail = $("#connect_ar_mail").val();
-        data["connect_ar_mail"] = connect_ar_mail;
-        data["connect_ar_password"] = $("#connect_ar_password").val();
-        $.ajax({
-            url : '/sdk/app/info',
-            data : data,
-            type : "PUT",
-            dataType : "json",
-            success : function (response) {
-                if (response.status == "success") {
-                    $("#connect_ar").text(connect_ar_mail);
-                    modal.modal('hide');
-                }else {
-                    console.log(response.status);
-                    $("#error-msg").text(response.msg);
+            var platform = {}
+            if (platIos) {
+                platform['ios'] = {
+                    "apple_id": $("#apple_id").val(),
+                    "bundle_id": $("#bundle_id").val(),
+                    "app_down": $("#ios_down").val()
                 }
-            },
-        });
-    });
-    modal.modal('show');
-});
-
-function appDelete(sdk_app_id){
-    $.ajax({
-            url : '/sdk/app/info?sdk_app_id=' + sdk_app_id,
-            data : {},
-            type : "DELETE",
-            dataType : "json",
-            success : function (response) {
-                if (response.status == "success") {
-                    location.href = "/sdk/app/manage";
-                }else {
-                    alert("删除错误");
-                }
-            },
-            error: function(){
-                alert("服务器错误");
             }
-        });
-}
+            if (platAndroid)
+            {
+                platform['android'] = {
+                    "pack_name": $("#pack_name").val(),
+                    "key_store": $("#key_store").val(),
+                    "app_down": $("#android_down").val()
+                }
+            }
 
+            data['platform'] = JSON.stringify(platform);
+            return;
+            $.ajax({
+                url : "/sdk/app/info",
+                traditional : true,
+                data : data,
+                type : "POST",
+                dataType : "json",
+                success : function (response) {
+                    if (response.status == "success") {
+                        var url = '/sdk/app/info?sdk_app_id=' + sdkAppId;
+                        location.href = url;
+                    } else {
+                       console.log(response.msg);
+                    }
+                },
+                error : function() {
+                    alert("服务器错误，请稍后重试");
+                }
+            });
+        },
+        appVerify: function(data, redirectUrl){
+            $.ajax({
+                url : '/admin/sdk/app/info',
+                data : data,
+                type : "POST",
+                dataType : "json",
+                success : function (response) {
+                    if (response.status == "success") {
+                       location.href = redirectUrl;
+                    }else {
+                        alert(response.msg);
+                        $(".app-verify-modal").hide();
+                    }
+                },
+                error: function(){
+                    alert('服务器错误，请稍后重试');
+                }
+            });
+        },
+        verifyAgree: function () {
+            var modal = $('div#agreeModal');
+            modal.find("button#verify-agree-submit").unbind('click').click(function () {
+                var data = {};
+                data["sdk_app_id"] = $("#sdk_app_id").val();
+                data['app_status'] = 1;
+                var redirectUrl = "/admin/sdk/app/verify?app_status=1"
+                app.appVerify(data, redirectUrl);
+            });
+            modal.modal('show');
+        },
+        verifyRefuse: function () {
+            var modal = $('div#refuseModal');
+            modal.find("button#verify-refuse-submit").unbind('click').click(function () {
+                var data = {};
+                data["sdk_app_id"] = $("#sdk_app_id").val();
+                data['app_status'] = 3;
+
+                var reasonOp = $(".app-reason-list").val();
+
+                var verifyReason = "";
+                if (reasonOp == "0")
+                    verifyReason = $("#verify-reason").val().trim();
+                else
+                    verifyReason = reasonOp;
+
+                if (!verifyReason) {
+                    alert("原因不能为空");
+                    return;
+                }
+                data['verify_reason'] = verifyReason;
+
+                var redirectUrl = "/admin/sdk/app/verify?app_status=3";
+                app.appVerify(data, redirectUrl);
+            });
+            modal.modal('show');
+        },
+        verifyCancelBtn: function () {
+            var modal = $('div.app-verify-modal');
+            modal.modal('hide');
+        },
+        verifyCancel: function(){
+            var modal = $('div#cancelModal');
+            modal.find("button#verify-cancel-submit").unbind('click').click(function () {
+                var data = {};
+                data["sdk_app_id"] = $("#sdk_app_id").val();
+                data['app_status'] = 4;
+
+                var reasonOp = $(".app-reason-list-c").val();
+
+                var verifyReason = "";
+                if (reasonOp == "0")
+                    verifyReason = $("#verify-cancel-reason").val().trim();
+                else
+                    verifyReason = reasonOp;
+
+                if (!verifyReason) {
+                    alert("原因不能为空");
+                    return;
+                }
+                data['verify_reason'] = verifyReason;
+                var redirectUrl = "/admin/sdk/app/verify?app_status=3";
+                app.appVerify(data, redirectUrl);
+            });
+            modal.modal('show');
+        },
+        connectArMod: function () {
+            var modal = $('div#arModal');
+            modal.find("button#ar-submit-btn").unbind('click').click(function () {
+                var data = {};
+                var sdkAppId = $("#sdk_app_id").val();
+                data["sdk_app_id"] = sdkAppId;
+                var connectArMail = $("#connect_ar_mail").val();
+                data["connect_ar_mail"] = connectArMail;
+                data["connect_ar_password"] = $("#connect_ar_password").val();
+                $.ajax({
+                    url : '/sdk/app/info',
+                    data : data,
+                    type : "PUT",
+                    dataType : "json",
+                    success : function (response) {
+                        if (response.status == "success") {
+                            $("#connect_ar").text(connectArMail);
+                            modal.modal('hide');
+                        }else {
+                            console.log(response.status);
+                            $("#error-msg").text(response.msg);
+                        }
+                    },
+                });
+            });
+            modal.modal('show');
+        },
+        appDelete: function (sdkAppId) {
+            $.ajax({
+                url : '/sdk/app/info?sdk_app_id=' + sdkAppId,
+                data : {},
+                type : "DELETE",
+                dataType : "json",
+                success : function (response) {
+                    if (response.status == "success") {
+                        location.href = "/sdk/app/manage";
+                    }else {
+                        alert("删除错误");
+                    }
+                },
+                error: function(){
+                    alert("服务器错误");
+                }
+            });
+        },
+        init: function () {
+            $(".page-action").on("click", app.pageAction);
+            $(".admin-nav-head-btn").on("click", app.headReturn);
+            $(".editor-sdk-btn").on("click", app.editorSdkBtn);
+            $(".editor-sdk-cancel").on("click", app.editorSdkCancle);
+            $('#logo').on("change", app.logUpload);
+
+            $(".editor-sdk-submit").on("click", app.editorSdkSubmit);
+            $("button.verify-cancel-btn").on('click', app.verifyCancelBtn);
+            $(".verify-set-div-agree").on("click", app.verifyAgree);
+            $(".verify-set-div-refuse").on("click", app.verifyRefuse);
+            $(".verify-set-div-cancel").on("click", app.verifyCancel);
+            $(".connect-ar-mod").on("click", app.connectArMod);
+
+            w.appDelete = app.appDelete;
+            w.appParsePages = app.appParsePages;
+        }
+    };
+
+    app.init();
+} (window, jQuery);

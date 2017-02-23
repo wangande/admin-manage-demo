@@ -15,8 +15,11 @@
     float: left;
 }
 
-.main{
+.container{
+    width: 100%;
     height: 880px;
+    background-image: url("../../images/index/index.jpg");
+    background-size:cover;
 }
 .footer{
     text-align: center;

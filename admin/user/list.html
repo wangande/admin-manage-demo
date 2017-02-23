@@ -3,11 +3,11 @@
 <head>
     <meta charset="utf-8">
 <link rel="stylesheet" type="text/css" href="../../static/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="../../static/admin/css/app.css">
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/user.css">
     <link rel="stylesheet" type="text/css" href="../../static/admin/css/common.css">
     <link rel="stylesheet" type="text/css" href="../../static/flat-ui/css/flat-ui.css">
     <link rel="stylesheet" href="../../static/jquery/css/jquery-ui-1.10.2.custom.css" >
-    <title>授权应用</title>
+    <title>开发者</title>
 </head>
 <body>
     <div class="nav-base">
@@ -24,21 +24,21 @@
         <div class="div-border">
             <div class="div-float div-li">
                 <div class="div-border-base li-he">
-                    <a class="no-active" id="app-verify" href="app_verify.html">
+                    <a class="no-active" id="app-verify" href="../app/verify.html">
                         应用审核
                         <span id="app-verify-warn"></span>
                     </a>
                 </div>
-                <div class="div-border-base li-he"><a class="active" id="app-auth" href="#">授权应用</a></div>
-                <div class="div-border-base li-he"><a class="no-active" id="app-no-auth" href="app_no_auth.html">未授权应用</a></div>
-                <div class="div-border-base li-he"><a class="no-active" id="app-user" href="../user/user_list.html">开发者</a></div>
-                <div class="div-border-base li-he"><a class="no-active" id="app-msg" href="../msg/msg_list.html">消息推送</a></div>
+                <div class="div-border-base li-he"><a class="no-active" id="app-auth" href="../app/auth.html">授权应用</a></div>
+                <div class="div-border-base li-he"><a class="no-active" id="app-no-auth" href="../app/no_auth.html">未授权应用</a></div>
+                <div class="div-border-base li-he"><a class="active" id="app-user" href="#">开发者</a></div>
+                <div class="div-border-base li-he"><a class="no-active" id="app-msg" href="../msg/list.html">消息推送</a></div>
             </div>
 
             <div class="div-float div-content">
                 <div class="admin-nav-head">
                     <div class="admin-nav-head-info">
-                        <label>应用总数： 1</label>
+                        <label>帐号总数： 1</label>
                         <label>今天新增： 1</label>
                         <label>本周新增： 1</label>
                         <label>本月新增： 1</label>
@@ -53,30 +53,29 @@
                 <div class="admin-nav-body">
                     <table class="table table-hover">
                         <thead>
-                            <tr class="admin-background">
-                                <th>提交日期</th>
+                             <tr class="admin-background">
+                                <th>邮箱</th>
+                                <th>姓名</th>
+                                <th>手机号</th>
                                 <th>应用</th>
-                                <th>开发者</th>
-                                <th>平台</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>
-                                    2015-2-28
-                                </td>
-                                <td>
-                                    360
-                                </td>
-                                <td>
-                                    andrew
                                     1916508685@qq.com
                                 </td>
                                 <td>
-                                    android ios
+                                    andrew
                                 </td>
-                                <td><a href="#">详情</a></td>
+                                <td>
+                                    12345678900
+                                </td>
+                                <td>
+                                   3
+                                </td>
+                                <td><a href="info.html">详情</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -113,7 +112,7 @@
     <script src="../../static/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="../../static/bootstrap/js/bootstrap-switch.js" type="text/javascript"></script>
     <script src="../../static/jquery/js/jquery-ui-1.10.3.js" type="text/javascript"></script>
-    <script src="../../static/admin/js/app.js" type="text/javascript"></script>
+    <script src="../../static/admin/js/user.js" type="text/javascript"></script>
 
 </body>
 </html>

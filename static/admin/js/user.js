@@ -2,89 +2,93 @@
  * Created by wangande on 16-1-13.
  */
 
-function getUserList(page_num)
-{
-	if (parseInt(page_num)) {
-		var select_key = $(".select-key").val();
-    	var href_url = '/admin/sdk/user/list?page=' + page_num;
-    	if (select_key)
-        	href_url = href_url + "&select_key=" + select_key;
-    	location.href = href_url;
-	}
+~function (w, $) {
+    var user = {
+        getUserList: function (pageNum) {
+            if (parseInt(pageNum)) {
+                var selectKey = $(".select-key").val();
+                var hrefUrl = '/admin/sdk/user/list?page=' + pageNum;
+                if (selectKey) {
+                    hrefUrl = hrefUrl + "&select_key=" + selectKey;
+                }
+                location.href = hrefUrl;
+            }
+        },
+        userParsePages: function (nowPage, totalPage) {
+            if (totalPage == 0) {
+                $(".pages").hide();
+                return;
+            }
+            $(".pages").show();
 
-}
+            var pageHtml = '<div class="page-action {{active}}"' +
+                           'pageNum="{{page_num_id}}">'+
+                           '{{pageNum}}</div>';
 
-function userParsePages(now_page, total_page) {
-    if (total_page == 0) {
-        $(".pages").hide();
-        return;
-    }
-    $(".pages").show();
+            var prePageNum = nowPage - 1;
 
-    var pageHtml = '<div class="page-action {{active}}"' +
-                   'page_num="{{page_num_id}}">'+
-                   '{{page_num}}</div>';
+            var nextPageNum = nowPage + 1;
 
-    var pre_page_num = now_page - 1;
+            if (nextPageNum > totalPage)
+                nextPageNum = 0;
 
-    var next_page_num = now_page + 1;
+            var startPageNum = 1;
+            var endPageNum = 5;
 
-    if (next_page_num > total_page)
-        next_page_num = 0;
+            if (nowPage > 3) {
+                startPageNum = nowPage -2;
+                endPageNum = nowPage + 2;
+            }
 
-    var start_page_num = 1;
-    var end_page_num = 5;
+            if (endPageNum > totalPage)
+                endPageNum = totalPage;
 
-    if (now_page > 3) {
-        start_page_num = now_page -2;
-        end_page_num = now_page + 2;
-    }
+            var $div = $(".page").html("");
 
-    if (end_page_num > total_page)
-        end_page_num = total_page;
+            for (var i=startPageNum; i <= endPageNum; i++) {
+                var active = "";
+                if (i==nowPage)
+                    active = 'page-active';
+                var tmpHtml = pageHtml.replace(/\{\{active\}\}/gm, active)
+                                          .replace(/\{\{page_num_id\}\}/gm, i)
+                                          .replace(/\{\{page_num\}\}/gm, i);
 
-    var $div = $(".page").html("");
+                var $tmpl = $(tmpHtml).appendTo($div);
 
-    for (var i=start_page_num; i <= end_page_num; i++) {
-        var active = "";
-        if (i==now_page)
-            active = 'page-active';
-        var tmp_html = pageHtml.replace(/\{\{active\}\}/gm, active)
-                                  .replace(/\{\{page_num_id\}\}/gm, i)
-                                  .replace(/\{\{page_num\}\}/gm, i);
+                $tmpl.click(function(){
+                    var pageNum = $(this).attr('page_num');
+                    user.getUserList(pageNum);
+                })
+            }
 
-        var $tmpl = $(tmp_html).appendTo($div);
+            $("#home-page").attr('page_num', 1);
+            $("#pre-page").attr('page_num', prePageNum);
+            $("#next-page").attr('page_num', nextPageNum);
+            $("#last-page").attr('page_num', totalPage);
+        },
+        pageAction: function () {
+            var pageNum = $(this).attr("page_num");
+            user.getUserList(pageNum);
+        },
+        headReturn: function () {
+            var pageNum = $(".select-key").attr("data-page");
+            user.getUserList(pageNum);
+        },
+        userAppLogo: function () {
+            var sdkAppId = $(this).attr("data-sdk-app-id");
+            $(this).addClass("div-border-red");
+            $(".sdk-user-app-logo").removeClass("div-border-red");
 
-        $tmpl.click(function(){
-            var page_num = $(this).attr('page_num');
-            getUserList(page_num);
-        })
-    }
-
-    $("#home-page").attr('page_num', 1);
-    $("#pre-page").attr('page_num', pre_page_num);
-    $("#next-page").attr('page_num', next_page_num);
-    $("#last-page").attr('page_num', total_page);
-}
-
-$(".page-action").on("click", function(){
-	var page_num = $(this).attr("page_num");
-	getUserList(page_num);
-})
-
-$(".admin-nav-head-btn").on("click", function(){
-	var page = $(".select-key").attr("data-page");
-    getUserList(page);
-})
-
-
-
-$(".sdk-user-app-logo").on("click", function(){
-    var sdk_app_id = $(this).attr("data-sdk-app-id");
-    $(".sdk-user-app-logo").removeClass("div-border-red");
-    $(this).addClass("div-border-red");
-
-    $(".sdk-user-app-all-info").hide();
-    var sdk_app_id_str = "#" + sdk_app_id;
-    $(sdk_app_id_str).show();
-})
+            $(".sdk-user-app-all-info").hide();
+            var sdkAppIdStr = "#" + sdkAppId;
+            $(sdkAppIdStr).show();
+        },
+        init: function () {
+            $(".admin-nav-head-btn").on("click", user.userAppLogo);
+            // $(".admin-nav-head-btn").on("click", user.headReturn);
+            $(".page-action").on("click", user.pageAction);
+            w.userParsePages = user.userParsePages;
+        }
+    };
+    user.init();
+} (window, jQuery);
